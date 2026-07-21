@@ -44,3 +44,5 @@ requests
 watchdog
 
 typing-extensions
+
+torchvision

@@ -108,7 +108,7 @@ def chat_wela_llm():
         print("\nBot:", bot_reply)
 
 if __name__=="__main__":
-    user_input= input("Enter repository name: ")
+    user_input= input("Enter repository url: ")
     run_pipeline(user_input)
     print("\n"+" -"*50)
     print("Step 4 - Chat agent is Loaded ...")
