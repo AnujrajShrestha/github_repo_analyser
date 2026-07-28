@@ -3,493 +3,572 @@
 Summary:
 
 ------------------------------------------------------------
-Here’s a concise analysis of the GitHub repository:
+Here’s a concise analysis of the **CSV-File-Analyzer** GitHub repository:
 
 ---
 
 ### **Project Summary**
 
-1. **Project Name**
-   CSV File Analyzer (AI-Powered EDA Tool)
+1. **Project Name**:
+   CSV-File-Analyzer
 
-2. **Purpose**
-   Automates **Exploratory Data Analysis (EDA)** on CSV datasets using AI agents. It generates insights, visualizations, and statistical summaries without manual coding.
+2. **Purpose**:
+   Automated exploratory data analysis (EDA) and visualization for CSV datasets using AI agents. Simplifies data insights generation without manual coding.
 
-3. **Main Features**
-   - AI-driven EDA pipeline (4 agents: EDA, Visualization, Correlation, Summary).
-   - Auto-generates **13+ plots** (histograms, scatter plots, heatmaps, etc.) using `matplotlib`/`seaborn`.
-   - Handles data cleaning, correlation analysis, and descriptive statistics.
-   - Supports custom CSV inputs (sample: `Housing.csv`).
-   - Future roadmap includes interactive dashboards, NLP querying, and PDF reports.
+3. **Main Features**:
+   - AI-driven EDA (summary statistics, missing value detection).
+   - Automated visualization (histograms, scatter plots, correlation heatmaps).
+   - Multi-agent pipeline (EDA, Visualization, Correlation, Summary).
+   - Support for custom CSV datasets.
+   - Outputs plots and reports in structured directories.
 
-4. **Primary Programming Language**
-   **Python**
+4. **Primary Programming Language**:
+   Python
 
-5. **Frameworks/Libraries Used**
-   - **Core**: `pandas`, `numpy`, `matplotlib`, `seaborn`
-   - **AI/LLM**: `langchain`, `langchain-groq`, `langchain-mistralai`
-   - **Utilities**: `pydantic` (data validation), `python-dotenv` (env vars), `rich` (CLI formatting)
-   - **Optional**: `streamlit` (for future UI), `chromadb` (vector storage), `sentence-transformers` (embeddings)
+5. **Frameworks/Tools Used**:
+   - **Data Processing**: Pandas, NumPy
+   - **Visualization**: Matplotlib, Seaborn
+   - **AI/LLM Integration**: LangChain (Groq/MistralAI), ChromaDB, Sentence Transformers
+   - **Configuration**: Pydantic, python-dotenv
+   - **UI/Output**: Streamlit (planned), Rich (CLI formatting)
 
-6. **Folder Structure Overview**
+6. **Folder Structure Overview**:
    ```
    CSV-FILE-ANALYZER/
    ├── plots/               # Generated visualizations
    ├── agents.py            # AI agent logic
-   ├── pipeline.py          # Orchestrates EDA steps
-   ├── tools.py             # Data analysis functions
+   ├── pipeline.py          # Orchestrates analysis steps
+   ├── tools.py             # Core data analysis functions
    ├── Housing.csv          # Sample dataset
-   ├── .env                 # API keys/config
-   ├── requirements.txt     # Dependencies
-   └── result.txt           # Sample output
+   ├── result.txt           # Example output
+   └── .env                 # API keys/config
    ```
 
-7. **Who Would Use This?**
-   - **Data Scientists/Analysts**: Quick EDA for prototyping or sanity checks.
-   - **Developers**: Integrate automated analysis into pipelines.
-   - **Non-Technical Users**: Generate insights without coding (future Streamlit UI).
-   - **Educators/Students**: Learn EDA concepts via auto-generated reports.
+7. **Target Users**:
+   - Data analysts/scientists seeking quick EDA automation.
+   - Non-technical users needing insights from CSV data.
+   - Developers integrating AI-driven analytics into workflows.
 
 ---
 
-### **Key Notes**
-- **AI Integration**: Uses LLM agents (via LangChain) to interpret data and suggest analyses.
-- **Extensible**: Designed for future features like NLP queries and interactive dashboards.
-- **Dependencies**: Heavy reliance on `pandas`/`numpy` for data ops and `matplotlib`/`seaborn` for visuals.
+### **Key Notes**:
+- **Dependencies**: Heavy reliance on LangChain for AI agents and Pandas/Matplotlib for data tasks.
+- **Future Plans**: Interactive dashboards (Streamlit), PDF reports, and natural language querying.
+- **Setup**: Requires API keys (Groq/MistralAI) and Python 3.8+.
 ------------------------------------------------------------
 Architecture: 
 
 ------------------------------------------------------------
-Based on the provided repository details, I'll analyze the architecture of this **CSV File Analyzer** project. This appears to be an AI-powered data analysis tool that performs Exploratory Data Analysis (EDA) on CSV files using LLM (Large Language Model) agents.
+Based on the provided repository information, I'll analyze the architecture of this **CSV File Analyzer** project, which appears to be an AI-powered data analysis tool for CSV files. Here's my detailed assessment:
 
 ---
 
 ## **1. Overall Architecture**
-This is a **modular, agent-based data analysis pipeline** that leverages:
-- **LangChain** for LLM orchestration
+This is a **modular, agent-based data analysis pipeline** built with:
+- **LangChain** for AI orchestration
 - **Pandas/Numpy** for data processing
 - **Matplotlib/Seaborn** for visualization
-- **Pydantic** for data validation
-- **Python-dotenv** for environment management
+- **Streamlit** (implied by future improvements) for potential UI
 
-The system follows a **pipeline-based workflow** where multiple AI agents collaborate to analyze a dataset and generate insights.
+The system follows a **multi-agent workflow pattern**, where specialized agents handle different aspects of EDA (Exploratory Data Analysis) in sequence.
 
 ---
 
 ## **2. Major Modules**
 | Module | File | Purpose |
 |--------|------|---------|
-| **Pipeline** | `pipeline.py` | Orchestrates the entire analysis workflow |
-| **Agents** | `agents.py` | Contains AI agents (EDA, Visualization, Correlation, Summary) |
-| **Tools** | `tools.py` | Data processing and analysis utilities |
-| **Environment** | `.env` | Stores API keys and configurations |
-| **Visualizations** | `plots/` | Stores generated plots |
-| **Sample Data** | `Housing.csv` | Example dataset |
+| **Agent System** | `agents.py` | Contains AI agents for different analysis tasks |
+| **Pipeline Orchestrator** | `pipeline.py` | Coordinates agent execution flow |
+| **Analysis Tools** | `tools.py` | Core data processing/visualization utilities |
+| **Configuration** | `.env` | Environment variables (API keys, paths) |
+| **Output Storage** | `plots/` | Stores generated visualizations |
+| **Sample Data** | `Housing.csv` | Default dataset for analysis |
 
 ---
 
 ## **3. Responsibilities of Each Module**
 
-### **🔹 Pipeline (`pipeline.py`)**
-- **Entry point** for the analysis workflow
-- Coordinates the execution of different agents
-- Manages the sequence of operations (EDA → Visualization → Correlation → Summary)
-
-### **🔹 Agents (`agents.py`)**
-- **EDA Agent**: Performs initial data exploration (missing values, data types, basic statistics)
-- **Visualization Agent**: Generates plots (histograms, scatter plots, box plots, etc.)
+### **🔹 `agents.py`**
+- **EDA Agent**: Performs initial dataset profiling (shape, dtypes, missing values)
+- **Visualization Agent**: Generates statistical plots (histograms, scatter plots, etc.)
 - **Correlation Agent**: Computes and visualizes feature correlations
-- **Summary Agent**: Generates a textual summary of findings
+- **Summary Agent**: Compiles final analysis report
 
-### **🔹 Tools (`tools.py`)**
-- **Data Loading**: Reads CSV files into Pandas DataFrames
-- **Data Cleaning**: Handles missing values, outliers, etc.
-- **Statistical Analysis**: Computes mean, median, standard deviation, etc.
-- **Visualization Helpers**: Generates Matplotlib/Seaborn plots
+### **🔹 `pipeline.py`**
+- Defines execution sequence of agents
+- Handles error recovery and logging
+- Manages intermediate output storage
 
-### **🔹 Environment (`.env`)**
-- Stores API keys (e.g., Groq, MistralAI)
-- Manages configuration settings
+### **🔹 `tools.py`**
+- Data loading (`pandas.read_csv`)
+- Statistical computations
+- Plot generation (`matplotlib/seaborn`)
+- Utility functions (file paths, etc.)
 
-### **🔹 Visualizations (`plots/`)**
-- Stores generated plots (PNG/JPG)
-- Organizes outputs for reporting
-
-### **🔹 Sample Data (`Housing.csv`)**
-- Provides a default dataset for testing
-- Can be replaced with user-provided CSV files
+### **🔹 `.env`**
+- Stores API keys for LLM providers (Groq, MistralAI)
+- Configures CSV path and other runtime parameters
 
 ---
 
 ## **4. Data Flow**
-1. **Input**: CSV file (`Housing.csv` or user-provided)
-2. **Pipeline Initialization**: Loads data and initializes agents
-3. **EDA Agent**:
-   - Analyzes dataset structure (columns, data types, missing values)
-   - Computes basic statistics (mean, median, std dev)
-4. **Visualization Agent**:
-   - Generates plots (histograms, scatter plots, box plots)
-   - Saves plots to `plots/`
-5. **Correlation Agent**:
-   - Computes feature correlations
-   - Generates a heatmap
-6. **Summary Agent**:
-   - Generates a textual report (`result.txt`)
-7. **Output**: Visualizations + Summary report
+```mermaid
+graph TD
+    A[CSV File] --> B[EDA Agent]
+    B --> C[Visualization Agent]
+    C --> D[Correlation Agent]
+    D --> E[Summary Agent]
+    E --> F[Output: plots/ + result.txt]
+```
+
+1. **Input**: CSV file (default: `Housing.csv`)
+2. **Processing**:
+   - EDA Agent → Basic stats
+   - Visualization Agent → 13+ plots
+   - Correlation Agent → Heatmap
+   - Summary Agent → Text report
+3. **Output**: Visualizations (`plots/`) + Text summary (`result.txt`)
 
 ---
 
 ## **5. Dependency Relationships**
-```mermaid
-graph TD
-    A[pipeline.py] --> B[agents.py]
-    A --> C[tools.py]
-    B --> C
-    C --> D[pandas]
-    C --> E[numpy]
-    C --> F[matplotlib]
-    C --> G[seaborn]
-    A --> H[.env]
-    H --> I[python-dotenv]
-    B --> J[langchain]
-    J --> K[langchain-groq]
-    J --> L[langchain-mistralai]
+```
+pipeline.py
+├── agents.py (orchestrates)
+│   ├── tools.py (uses)
+│   └── langchain (LLM calls)
+└── .env (config)
+
+tools.py
+├── pandas (data)
+├── matplotlib/seaborn (plots)
+└── numpy (math)
 ```
 
-### **Key Dependencies:**
-- **LangChain** → Orchestrates LLM agents
-- **Pandas/Numpy** → Data processing
-- **Matplotlib/Seaborn** → Visualization
-- **Pydantic** → Data validation
-- **Python-dotenv** → Environment management
+Key dependencies:
+- **LangChain** → Agent logic + LLM integration
+- **Pandas** → Data manipulation backbone
+- **Matplotlib/Seaborn** → Visualization layer
 
 ---
 
 ## **6. Entry Point**
-- **Primary Entry Point**: `pipeline.py`
-  - Initializes the analysis pipeline
-  - Triggers agent execution
-- **Alternative Entry Point**: Could be extended to a **Streamlit UI** (as mentioned in future improvements)
+The system appears to be **script-driven** (no explicit `main.py`). Likely execution flow:
+1. User runs `python pipeline.py`
+2. Pipeline loads `.env` config
+3. Agents execute sequentially
+4. Outputs saved to `plots/` and `result.txt`
+
+*(Note: Future Streamlit UI would add a web-based entry point)*
 
 ---
 
 ## **7. Database Usage**
-- **No traditional database** (SQL/NoSQL) is used
-- **Temporary in-memory storage** via Pandas DataFrames
-- **ChromaDB** (mentioned in dependencies) could be used for vector storage (e.g., for semantic search in future versions)
+- **No traditional database** (PostgreSQL/MySQL)
+- **ChromaDB** (vector store) is listed in dependencies but not currently used in the described flow. Potential future use:
+  - Semantic search over datasets
+  - Caching analysis results
+  - Natural language query support
 
 ---
 
 ## **8. AI Components**
-| Component | Purpose |
-|-----------|---------|
-| **LangChain** | Orchestrates LLM agents |
-| **Groq/MistralAI** | Provides LLM capabilities (via API) |
-| **Sentence Transformers** | (Future) Embeddings for semantic analysis |
-| **Agents** | Specialized AI workers (EDA, Visualization, etc.) |
+| Component | Purpose | Provider |
+|-----------|---------|----------|
+| **LLM Agents** | Autonomous analysis steps | Groq/MistralAI (via LangChain) |
+| **Sentence Transformers** | Text embeddings (future) | HuggingFace |
+| **TikToken** | Token counting | OpenAI |
+
+Current AI usage:
+- Agents make LLM calls for:
+  - Data interpretation
+  - Report generation
+  - Potential future: NL queries
 
 ---
 
 ## **9. APIs**
-- **External APIs**:
-  - **Groq API** (for LLM inference)
-  - **MistralAI API** (alternative LLM provider)
-- **Internal APIs**:
-  - **LangChain Agents** (for task delegation)
-  - **Pandas/Numpy** (for data processing)
-  - **Matplotlib/Seaborn** (for visualization)
+### **External APIs**
+- **Groq API**: LLM inference for agents
+- **MistralAI API**: Alternative LLM provider
+- **HuggingFace**: Sentence embeddings (future)
+
+### **Internal APIs**
+- **LangChain Tools**: Agent-accessible functions in `tools.py`
+- **Pipeline API**: Agent coordination interface
 
 ---
 
 ## **10. Suggestions to Improve Architecture**
 
-### **🔹 Current Strengths**
-✅ **Modular design** (separate agents for different tasks)
-✅ **Good use of LangChain** for LLM orchestration
-✅ **Clear data flow** (CSV → Analysis → Output)
+### **🔧 Immediate Improvements**
+1. **Add Streamlit UI**
+   - Replace CLI with interactive web interface
+   - File uploader + real-time visualization
 
-### **🔹 Areas for Improvement**
+2. **Modularize Agents**
+   ```python
+   # Current: agents.py monolith
+   # Proposed:
+   /agents
+     ├── eda_agent.py
+     ├── viz_agent.py
+     └── correlation_agent.py
+   ```
 
-#### **1. Scalability & Performance**
-- **Problem**: Processing large CSV files may cause memory issues.
-- **Solution**:
-  - Use **Dask** or **Modin** for out-of-core computation.
-  - Implement **chunked processing** for very large datasets.
+3. **Error Handling**
+   - Add try-catch blocks in pipeline
+   - Validate CSV structure before processing
 
-#### **2. Error Handling & Logging**
-- **Problem**: Limited error handling in the current structure.
-- **Solution**:
-  - Add **structured logging** (e.g., `logging` module).
-  - Implement **retry mechanisms** for API calls (Groq/MistralAI).
+4. **Configuration Management**
+   - Replace `.env` with `config.yaml` for structured settings
+   - Add schema validation (Pydantic)
 
-#### **3. Extensibility**
-- **Problem**: Adding new analysis types requires modifying `agents.py`.
-- **Solution**:
-  - Use a **plugin-based architecture** (e.g., `stevedore`).
-  - Define **agent interfaces** (ABCs) for easier extension.
+5. **Logging**
+   - Replace print statements with `logging` module
+   - Add timestamps and log levels
 
-#### **4. User Interface**
-- **Problem**: Currently CLI-based; no interactive UI.
-- **Solution**:
-  - **Streamlit** (as mentioned in future improvements).
-  - **FastAPI** for a REST API (if used as a backend service).
+### **🚀 Advanced Improvements**
+6. **Plugin Architecture**
+   - Allow custom agents via entry points
+   - Example: `pip install csv-analyzer-plugin-regression`
 
-#### **5. Testing**
-- **Problem**: No visible test suite.
-- **Solution**:
-  - Add **unit tests** (e.g., `pytest`) for `tools.py`.
-  - Implement **integration tests** for the pipeline.
+7. **Caching Layer**
+   - Use ChromaDB to cache analysis results
+   - Avoid reprocessing same datasets
 
-#### **6. Configuration Management**
-- **Problem**: Hardcoded `CSV_PATH` in `tools.py`.
-- **Solution**:
-  - Move to **config file** (e.g., `config.yaml`).
-  - Use **environment variables** for dynamic paths.
+8. **Asynchronous Processing**
+   - Parallelize agent execution where possible
+   - Use `asyncio` for I/O-bound tasks
 
-#### **7. Output Formats**
-- **Problem**: Only generates text (`result.txt`) and images (`plots/`).
-- **Solution**:
-  - Add **PDF/HTML reports** (e.g., `WeasyPrint`, `Jinja2`).
-  - Support **interactive Plotly/Dash visualizations**.
+9. **Containerization**
+   - Dockerize for easy deployment
+   - Add `Dockerfile` and `docker-compose.yml`
 
-#### **8. Security**
-- **Problem**: API keys stored in `.env` (risk of exposure).
-- **Solution**:
-  - Use **secret management** (e.g., AWS Secrets Manager, HashiCorp Vault).
-  - Implement **input validation** to prevent CSV injection.
+10. **Testing**
+    - Add unit tests for tools (`pytest`)
+    - Mock LLM calls for agent tests
 
-#### **9. Documentation**
-- **Problem**: README lacks detailed architecture docs.
-- **Solution**:
-  - Add **architecture diagrams** (e.g., Mermaid).
-  - Document **agent responsibilities** in code.
+11. **State Management**
+    - Track analysis progress (e.g., "Step 2/4: Generating plots")
+    - Resume interrupted pipelines
 
-#### **10. Deployment**
-- **Problem**: No clear deployment strategy.
-- **Solution**:
-  - **Dockerize** the application.
-  - Add **CI/CD pipeline** (GitHub Actions).
+12. **Multi-File Support**
+    - Merge multiple CSVs
+    - Handle relational data
+
+13. **Export Formats**
+    - Add PDF/HTML report generation
+    - Support Jupyter notebooks
+
+14. **Security**
+    - Sanitize CSV inputs (prevent CSV injection)
+    - Validate API keys in `.env`
+
+15. **Performance**
+    - Add Dask for large datasets
+    - Implement sampling for quick previews
 
 ---
 
-## **🔚 Final Thoughts**
-This is a **well-structured, modular AI-powered EDA tool** with a clear separation of concerns. The **agent-based approach** is a good fit for LLM-driven analysis. Future improvements should focus on **scalability, error handling, and user experience** (e.g., Streamlit UI).
+## **📊 Proposed Enhanced Architecture**
+```mermaid
+graph TD
+    subgraph Frontend
+        A[Streamlit UI] --> B[File Uploader]
+        A --> C[Dashboard]
+    end
 
-Would you like a deeper dive into any specific area? 🚀
+    subgraph Backend
+        D[Pipeline Orchestrator] --> E[Agent Registry]
+        E --> F1[EDA Agent]
+        E --> F2[Viz Agent]
+        E --> F3[Correlation Agent]
+        E --> F4[Custom Agents]
+
+        D --> G[Toolbox]
+        G --> H1[Pandas]
+        G --> H2[Matplotlib]
+        G --> H3[LLM Tools]
+
+        D --> I[ChromaDB Cache]
+    end
+
+    B --> D
+    D --> C
+```
+
+---
+
+## **🎯 Key Takeaways**
+1. **Strengths**:
+   - Clean separation of concerns (agents/tools/pipeline)
+   - Good use of LangChain for AI workflows
+   - Extensible design (easy to add new agents)
+
+2. **Opportunities**:
+   - Add UI layer (Streamlit)
+   - Improve error handling and logging
+   - Containerize for production
+   - Add testing infrastructure
+
+3. **Future-Proofing**:
+   - Plugin system for custom analysis
+   - Caching for performance
+   - Support for larger datasets
+
+This architecture is well-suited for its current purpose but would benefit from the suggested improvements to handle production-scale use cases.
 ------------------------------------------------------------
 Review: 
 
 ------------------------------------------------------------
 # Code Review: CSV File Analyzer
 
-Based on the provided repository information, I'll analyze the project across the requested dimensions. Since I don't have direct access to the actual code files, this review is based on the repository structure and documentation provided.
+Based on the provided repository information, I'll analyze the project across the requested dimensions. Since I don't have direct access to the actual code files, this review is based on the structure and dependencies described.
 
 ## 1. Code Quality
 
 **Observations:**
 - The project appears to be well-structured with clear separation of concerns (agents, pipeline, tools)
 - Uses modern Python libraries (LangChain, Pydantic, etc.)
-- Follows a modular approach
+- Includes sample dataset and output examples
 
 **Suggestions:**
 - Implement type hints throughout the codebase for better maintainability
-- Add input validation for CSV files (check file size, format, etc.)
-- Consider using Python's `dataclasses` where appropriate for data structures
+- Add input validation for CSV files (check for valid formats, required columns, etc.)
+- Consider adding unit tests (pytest) for core functionality
+- Implement logging instead of print statements for better debugging
 
 ## 2. Readability
 
 **Observations:**
-- The structure suggests good separation of concerns
-- README provides clear usage instructions
+- The project structure is logical and easy to follow
+- README provides clear installation and usage instructions
 
 **Suggestions:**
 - Add docstrings to all functions and classes following Google or NumPy style
 - Include more detailed comments for complex logic
 - Consider breaking down large functions into smaller, single-purpose functions
-- Add a CONTRIBUTING.md file with code style guidelines
+- Add a CONTRIBUTING.md file with coding standards
 
 ## 3. Naming Conventions
 
 **Observations:**
-- Appears to follow Python naming conventions (snake_case for variables/functions, PascalCase for classes)
+- File names are descriptive (agents.py, pipeline.py, tools.py)
+- The project name is clear (CSV-File-Analyzer)
 
 **Suggestions:**
-- Ensure all file names are consistent (e.g., `agents.py` vs potential `analysis_agents.py`)
-- Avoid generic names like `tools.py` - consider more specific names like `data_analysis_tools.py`
-- Be consistent with naming patterns (e.g., all agent classes end with "Agent")
+- Ensure consistent naming for variables and functions (snake_case for functions/variables, PascalCase for classes)
+- Avoid single-letter variable names except in very short loops
+- Consider more descriptive names for agent functions (e.g., `generate_eda_report()` instead of just `eda_agent()`)
 
 ## 4. Project Structure
 
 **Observations:**
-- Clean and logical structure
-- Separation of concerns is good
+- Clean separation of concerns with agents, pipeline, and tools
+- Dedicated plots directory for outputs
+- Good use of .env for configuration
 
 **Suggestions:**
 - Consider adding a `config/` directory for configuration files
 - Add a `tests/` directory for unit tests
-- Consider splitting `tools.py` into multiple files if it grows large
-- Add `__init__.py` files to make modules importable
-- Consider adding a `utils/` directory for helper functions
+- Consider separating core functionality from LangChain-specific code
+- Add a `docs/` directory for more detailed documentation
+- Consider using `__init__.py` files to make the project a proper Python package
 
 ## 5. Error Handling
 
 **Observations:**
-- Not enough information in the README about error handling
+- Basic error handling is implied by the structure
 
 **Suggestions:**
 - Implement comprehensive error handling for:
-  - File I/O operations
-  - Data parsing
+  - File I/O operations (missing files, corrupt files)
+  - Data processing (invalid data types, missing values)
+  - API calls (rate limits, connection issues)
   - Visualization generation
-  - API calls (if any)
 - Add custom exceptions for domain-specific errors
 - Implement retry logic for external API calls
-- Add logging for errors and important operations
+- Add validation for CSV file structure before processing
 
 ## 6. Security Issues
 
 **Observations:**
-- Uses python-dotenv for environment variables (good practice)
+- Uses python-dotenv for environment variables
+- No obvious security issues from the description
 
 **Suggestions:**
-- Add input sanitization for CSV file paths to prevent path traversal attacks
-- Validate CSV content before processing (check for malicious content)
-- Implement size limits for uploaded files
-- Consider adding a `.gitignore` entry for sensitive files if not already present
-- Add security considerations to README (e.g., don't commit API keys)
+- Add input sanitization for CSV files to prevent CSV injection
+- Validate all environment variables on startup
+- Consider adding file size limits for uploaded CSVs
+- Implement proper secret management (don't commit .env files)
+- Add security headers if this becomes a web application
+- Consider adding dependency vulnerability scanning (e.g., safety check)
 
 ## 7. Performance Issues
 
 **Observations:**
-- Uses pandas/numpy which are performant for data analysis
+- Uses efficient libraries (pandas, numpy)
 
 **Suggestions:**
 - Add memory profiling for large datasets
 - Implement chunking for very large CSV files
-- Consider using Dask for out-of-core computation with large datasets
-- Add caching for expensive operations
-- Profile visualization generation which can be slow for large datasets
+- Consider caching for repeated operations
+- Add parallel processing for independent tasks
+- Profile visualization generation which can be resource-intensive
+- Consider using Dask for out-of-core computations with very large datasets
 
 ## 8. Code Duplication
 
-**Observations:**
-- Not enough visibility into actual code to assess
-
 **Suggestions:**
-- Implement a base class for agents to avoid repeating common functionality
-- Create utility functions for repeated operations (e.g., file handling, plotting)
-- Consider using decorators for cross-cutting concerns
+- Look for common patterns in the agents that could be abstracted
+- Create utility functions for repeated operations (e.g., file handling, data validation)
+- Consider creating a base agent class with common functionality
+- Implement a configuration system to avoid hardcoding values across files
 
 ## 9. Missing Documentation
 
-**Observations:**
-- README provides good high-level overview
-
 **Suggestions:**
-- Add docstrings to all public functions and classes
-- Create API documentation (could use Sphinx or MkDocs)
-- Add inline comments for complex logic
-- Document the expected format of input CSV files
-- Add examples of how to extend the system
-- Document environment variables in `.env.example`
+- Add detailed docstrings for all public functions and classes
+- Create architecture documentation explaining the agent system
+- Document the expected CSV format and requirements
+- Add examples of input/output for each agent
+- Document the visualization types and their purposes
+- Add a CHANGELOG.md for tracking changes
+- Document the data flow between components
 
 ## 10. Best Practice Violations
 
-**Observations:**
-- Uses modern Python practices
-
 **Suggestions:**
-- Add type hints throughout the codebase
-- Implement proper logging instead of print statements
-- Add unit tests (pytest) and integration tests
-- Consider using a linter (flake8, pylint) and formatter (black, isort)
+- Implement proper Python packaging (setup.py or pyproject.toml)
 - Add pre-commit hooks for code quality checks
-- Implement CI/CD pipeline (GitHub Actions)
-- Add version pinning for dependencies in requirements.txt
-- Consider using a dependency management tool like Poetry
+- Implement CI/CD pipeline for testing and deployment
+- Add versioning for the project
+- Consider using a more robust configuration system (e.g., Hydra)
+- Implement proper dependency management (consider using poetry)
+- Add code coverage reporting for tests
+- Consider using a linter (flake8, pylint) and formatter (black, isort)
 
 ## Additional Recommendations
 
-1. **Testing:**
-   - Add unit tests for all core functionality
+1. **Streamlit Integration:**
+   - Since you plan to add Streamlit UI, consider:
+     - Separating business logic from UI code
+     - Implementing proper state management
+     - Adding file upload validation
+
+2. **Data Processing:**
+   - Add data quality checks (missing values, outliers)
+   - Implement data type inference and validation
+   - Add support for different CSV formats (delimiters, encodings)
+
+3. **Visualization:**
+   - Standardize visualization styles (colors, fonts, sizes)
+   - Add interactive visualizations (Plotly, Altair)
+   - Implement visualization configuration options
+
+4. **Future Features:**
+   - For natural language querying, consider:
+     - Adding a proper query parser
+     - Implementing a knowledge base
+     - Adding query validation
+   - For PDF reports, consider:
+     - Using a templating system
+     - Adding proper styling
+     - Implementing report generation in chunks for large datasets
+
+5. **Testing:**
+   - Add unit tests for data processing functions
    - Add integration tests for the pipeline
-   - Add test coverage reporting
-   - Include sample datasets for testing
+   - Add end-to-end tests for the full workflow
+   - Consider property-based testing for data transformations
 
-2. **Configuration:**
-   - Move hardcoded values (like CSV_PATH) to configuration
-   - Consider using a proper configuration management system
+6. **Monitoring:**
+   - Add performance metrics collection
+   - Implement logging for operational visibility
+   - Consider adding health checks
 
-3. **Extensibility:**
-   - Design plugin system for new analysis types
-   - Make visualization types configurable
-   - Add hooks for custom processing steps
+## Example Implementation Suggestions
 
-4. **User Experience:**
-   - Add progress indicators for long-running operations
-   - Implement proper error messages for users
-   - Add validation for input files before processing
-
-5. **Future Improvements Implementation:**
-   - For the planned "Natural language querying" feature, consider adding a proper NLP pipeline
-   - For "Interactive dashboards", consider using Plotly or Dash
-   - For "Download analysis report as PDF", consider using ReportLab or WeasyPrint
-
-6. **Dependency Management:**
-   - Consider splitting requirements.txt into base, dev, and optional dependencies
-   - Add dependency version constraints to prevent breaking changes
-
-7. **Internationalization:**
-   - Consider adding support for non-English datasets
-   - Add localization for user-facing messages
-
-## Example Code Improvements
-
-For `tools.py` (hypothetical example):
+For `tools.py` (based on the CSV_PATH example):
 
 ```python
 from pathlib import Path
-from typing import Optional, Dict, Any
+from typing import Optional
 import pandas as pd
+from pydantic import BaseSettings, FilePath
+
+class Settings(BaseSettings):
+    csv_path: FilePath = Path("Housing.csv")
+    max_file_size_mb: int = 100
+
+    class Config:
+        env_file = ".env"
+
+def load_csv(settings: Optional[Settings] = None) -> pd.DataFrame:
+    """Load and validate CSV file.
+
+    Args:
+        settings: Application settings. If None, uses default settings.
+
+    Returns:
+        Loaded pandas DataFrame
+
+    Raises:
+        FileNotFoundError: If CSV file doesn't exist
+        ValueError: If file is too large or invalid format
+    """
+    settings = settings or Settings()
+
+    if not settings.csv_path.exists():
+        raise FileNotFoundError(f"CSV file not found at {settings.csv_path}")
+
+    if settings.csv_path.stat().st_size > settings.max_file_size_mb * 1024 * 1024:
+        raise ValueError(f"File exceeds maximum size of {settings.max_file_size_mb}MB")
+
+    try:
+        return pd.read_csv(settings.csv_path)
+    except Exception as e:
+        raise ValueError(f"Failed to load CSV file: {str(e)}") from e
+```
+
+For better error handling in agents:
+
+```python
+from typing import Optional
 import logging
+from functools import wraps
 
 logger = logging.getLogger(__name__)
 
-class DataAnalyzer:
-    """Handles data analysis operations on CSV files."""
-
-    def __init__(self, csv_path: str, max_file_size_mb: int = 100):
-        """
-        Initialize the data analyzer.
-
-        Args:
-            csv_path: Path to the CSV file
-            max_file_size_mb: Maximum allowed file size in MB
-        """
-        self.csv_path = Path(csv_path)
-        self.max_file_size = max_file_size_mb * 1024 * 1024  # Convert to bytes
-
-    def validate_file(self) -> bool:
-        """Validate the input CSV file."""
-        if not self.csv_path.exists():
-            raise FileNotFoundError(f"File not found: {self.csv_path}")
-
-        if self.csv_path.stat().st_size > self.max_file_size:
-            raise ValueError(f"File too large. Max size: {self.max_file_size_mb}MB")
-
-        return True
-
-    def load_data(self) -> pd.DataFrame:
-        """Load and validate CSV data."""
-        self.validate_file()
-
+def handle_agent_errors(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
         try:
-            df = pd.read_csv(self.csv_path)
-            logger.info(f"Successfully loaded data with shape: {df.shape}")
-            return df
-        except Exception as e:
-            logger.error(f"Error loading CSV file: {e}")
+            return func(*args, **kwargs)
+        except FileNotFoundError as e:
+            logger.error(f"File not found: {str(e)}")
             raise
+        except ValueError as e:
+            logger.error(f"Data validation error: {str(e)}")
+            raise
+        except Exception as e:
+            logger.error(f"Unexpected error in {func.__name__}: {str(e)}", exc_info=True)
+            raise RuntimeError(f"Agent {func.__name__} failed") from e
+    return wrapper
+
+@handle_agent_errors
+def eda_agent(data: pd.DataFrame) -> dict:
+    """Perform exploratory data analysis on the dataset.
+
+    Args:
+        data: Input DataFrame to analyze
+
+    Returns:
+        Dictionary containing EDA results
+    """
+    # Implementation here
+    pass
 ```
 
-This review provides a comprehensive set of actionable suggestions to improve the project. The actual implementation would depend on the specific code in the repository, but these recommendations cover common areas for improvement in data analysis projects.
+This review provides a comprehensive set of actionable suggestions to improve the project's quality, maintainability, and robustness. The recommendations range from immediate fixes to longer-term architectural improvements.
