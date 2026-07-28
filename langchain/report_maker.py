@@ -24,4 +24,4 @@ def create_report(state: dict):
 
         for key, value in state["review_result"].items():
             fs.write(f"{key}: {value}\n")
-    return "report.txt"
+    return "langchain/report.txt"

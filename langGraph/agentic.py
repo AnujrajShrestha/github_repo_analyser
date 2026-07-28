@@ -3,23 +3,23 @@ from langchain_mistralai import ChatMistralAI
 from typing import TypedDict,Annotated
 from langgraph.graph import StateGraph,START,END
 from langgraph.graph.message import add_messages
-from db import load_context,run_db
-from url import run_url
+from db import load_context
 
 load_dotenv()
 
-llm= ChatMistralAI(model="mistral-large-latest")
+llm= ChatMistralAI(model="mistral-large-latest",temperature=0.5)
 
 class State(TypedDict):
     repo_url: str
     retriever: object
     messages: Annotated[list, add_messages]
-    summary: str
-    architecture: str
-    review: str
+    summary: dict
+    architecture: dict
+    review: dict
     
 
 def summary_node(state: State) -> dict:
+    print("Summary agent is working...\n")
     query= state['messages'][-1].content
     context= load_context(state['retriever'],query)
     SUMMARY_PROMPT = ("""
@@ -46,6 +46,7 @@ f"context: {context}")
 
 
 def architecture_node(state: State) -> dict:
+    print("Architecture agent is working...\n")
     query= state['messages'][-1].content
     context= load_context(state['retriever'],query)
     ARCHITECTURE_PROMPT = ("""
@@ -71,6 +72,7 @@ def architecture_node(state: State) -> dict:
     return {"architecture": response.content}
 
 def review_node(state: State) -> dict:
+    print("Review agent is working...\n")
     query=state["messages"][-1].content
     context= load_context(state['retriever'],query)
     REVIEW_PROMPT = ("""

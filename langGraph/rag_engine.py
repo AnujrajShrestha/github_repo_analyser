@@ -1,9 +1,10 @@
 from agentic import app
 from langchain_core.messages import HumanMessage
+from report_maker import create_report
 
 from url import run_url
 
-def run_pipeline(url):
+def run_pipeline():
     repo= run_url()
     result = app.invoke(
     {
@@ -29,6 +30,8 @@ def run_pipeline(url):
     print("Review:\n")
     print(result['review'])
     print("-"*50)
+    
+    create_report(result)
 
 if __name__== "__main__":
     run_pipeline()

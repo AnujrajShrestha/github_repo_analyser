@@ -6,7 +6,7 @@ def clone_repo(url: str) -> Path:
     if repo_name.endswith(".git"):
         repo_name = repo_name[:-4]
 
-    save_dir = Path("repositories") / repo_name
+    save_dir = Path("langchain/repositories") / repo_name
 
     if not save_dir.exists():
         subprocess.run(

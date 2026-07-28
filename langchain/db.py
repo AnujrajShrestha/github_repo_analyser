@@ -17,7 +17,7 @@ def repo_path(url):
 
     return {
         "name": repo_name,
-        "path": Path("repositories") / repo_name
+        "path": Path("langchain/repositories") / repo_name
     }
 
 def loadfiles(url: str):
