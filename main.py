@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, HttpUrl
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, HttpUrl
 
 from rag_engine import run_pipeline, load_context
 from llms import chat_chain
@@ -13,21 +13,26 @@ from langchain_core.messages import (
 
 
 app = FastAPI(
-    title="GitHub Repository Analyzer API",
-    description="AI-powered GitHub repository analysis API",
-    version="1.0.0"
+    title="GitHub Repository Analyzer API"
 )
+
+
+# =========================================================
+# CORS
+# =========================================================
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
 
-# -----------------------------
+
+# =========================================================
 # Request Models
-# -----------------------------
+# =========================================================
 
 class RepositoryRequest(BaseModel):
     url: HttpUrl
@@ -37,9 +42,9 @@ class ChatRequest(BaseModel):
     query: str
 
 
-# -----------------------------
-# Chat history
-# -----------------------------
+# =========================================================
+# Chat History
+# =========================================================
 
 message_history = [
     SystemMessage(
@@ -48,9 +53,9 @@ message_history = [
 ]
 
 
-# -----------------------------
-# Health Check
-# -----------------------------
+# =========================================================
+# Home
+# =========================================================
 
 @app.get("/")
 def home():
@@ -59,9 +64,9 @@ def home():
     }
 
 
-# -----------------------------
-# Analyze Repository
-# -----------------------------
+# =========================================================
+# Analyze
+# =========================================================
 
 @app.post("/analyze")
 def analyze_repository(request: RepositoryRequest):
@@ -86,9 +91,9 @@ def analyze_repository(request: RepositoryRequest):
         )
 
 
-# -----------------------------
-# Chat with Repository
-# -----------------------------
+# =========================================================
+# Chat
+# =========================================================
 
 @app.post("/chat")
 def chat_repository(request: ChatRequest):
