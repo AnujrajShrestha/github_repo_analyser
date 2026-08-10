@@ -46,3 +46,7 @@ watchdog
 typing-extensions
 
 torchvision
+
+fastapi
+uvicorn
+pydantic
