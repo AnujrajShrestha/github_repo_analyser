@@ -476,8 +476,8 @@ Instead of manually exploring hundreds of files, developers can provide a reposi
 GitHub: [AnujrajShrestha](https://github.com/AnujrajShrestha)
 
 ---
-This project cannot deployed bacause author don't have money todeployed this heavy RAG application. 😭😭😭
-But you can the appliction interface screenshots on interfaces folder. 😊
+This project cannot deployed bacause author don't have money to deploy this heavy RAG application. 😭😭😭
+But you can see the appliction interface screenshots on interfaces folder. 😊
 
 ---
 
