@@ -1,4 +1,4 @@
-const API_URL = "https://github-repo-analyser-7kkz.onrender.com";
+const API_URL = "http://127.0.0.1:8000 ";
 
 
 // =========================================================

@@ -7,12 +7,8 @@ langchain-groq
 langchain-mistralai
 
 chromadb
-faiss-cpu
-
-streamlit
 
 python-dotenv
-pydantic
 
 pandas
 numpy
@@ -32,18 +28,12 @@ lxml
 tree-sitter
 tree-sitter-python
 
-networkx
-graphviz
 
 matplotlib
 
 rich
 
 requests
-
-watchdog
-
-typing-extensions
 
 torchvision
 
