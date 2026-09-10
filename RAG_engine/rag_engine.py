@@ -1,7 +1,7 @@
-from git_clone import clone_repo
-from db import run_db
-from llms import analysis_chain,summary_chain,chat_chain,review_chain
-from report_maker import create_report
+from .git_clone import clone_repo
+from .db import run_db
+from .llms import analysis_chain,summary_chain,chat_chain,review_chain
+from .report_maker import create_report
 
 from langchain_core.messages import AIMessage,HumanMessage,SystemMessage
 from langchain_mistralai import MistralAIEmbeddings
@@ -23,8 +23,8 @@ def load_context(query):
     retriever= vectorStore.as_retriever(
         search_type='mmr',
         search_kwargs={
-            "k":8,
-            "fetch_k":12,
+            "k":5,
+            "fetch_k":8,
             "lambda_mult":0.5
         }
     )
@@ -38,7 +38,13 @@ def run_pipeline(user_input):
     clone_repo(user_input)
     run_db(user_input)
     
-    context= load_context("provide the information,summary and suggestion of this project.")
+    context = load_context(
+    """
+    Analyze this repository's structure, important files,
+    programming languages, frameworks, dependencies,
+    entry points, and overall project purpose.
+    """
+)
 
     print("\n"+" -"*50)
     print("Step 1 - Analysis agent is working ...")

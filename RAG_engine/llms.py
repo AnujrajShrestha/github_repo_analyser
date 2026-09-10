@@ -1,17 +1,11 @@
 from pydantic import BaseModel, Field
 from typing import List
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_mistralai import ChatMistralAI
 from langchain_groq import ChatGroq
 
-llm_mistral= ChatMistralAI(
-    model="mistral-large-latest",
-    temperature=0
-)
-
-llm_groq= ChatGroq(
-    model="llama-3.3-70b-versatile",
-    temperature=0.5,
+llm = ChatGroq(
+    model="openai/gpt-oss-20b",
+    temperature=0,
 )
 
 class RepositoryAnalysisOutput(BaseModel):
@@ -269,10 +263,22 @@ User Question:
     )
 ])
 
-analysis_chain = analysis_prompt | llm_groq.with_structured_output(RepositoryAnalysisOutput)
+analysis_chain = analysis_prompt | llm.with_structured_output(
+    RepositoryAnalysisOutput,
+    method="json_schema"
+)
 
-summary_chain = summary_prompt | llm_groq.with_structured_output(ProjectSummaryOutput)
+summary_chain = summary_prompt | llm.with_structured_output(
+    ProjectSummaryOutput,
+    method="json_schema"
+)
 
-review_chain = review_prompt | llm_mistral.with_structured_output(ProjectReviewOutput)
+review_chain = review_prompt | llm.with_structured_output(
+    ProjectReviewOutput,
+    method="json_schema"
+)
 
-chat_chain = chat_prompt | llm_mistral.with_structured_output(ProjectChatOutput)
+chat_chain = chat_prompt | llm.with_structured_output(
+    ProjectChatOutput,
+    method="json_schema"
+)

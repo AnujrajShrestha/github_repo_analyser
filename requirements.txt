@@ -2,6 +2,7 @@ langchain
 langchain-core
 langchain-community
 langgraph
+langchain-chroma
 
 langchain-groq
 langchain-mistralai
