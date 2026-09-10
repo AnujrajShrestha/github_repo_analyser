@@ -1,36 +1,29 @@
 # 🤖 GitHub Repository Analyzer
 
-An AI-powered GitHub Repository Analyzer that automatically clones, indexes, analyzes, summarizes, reviews, and answers questions about GitHub repositories.
+An AI-powered application that analyzes GitHub repositories and helps developers understand unfamiliar codebases.
 
-The project combines **FastAPI, LangChain, RAG, ChromaDB, Groq, Mistral AI, and a vanilla HTML/CSS/JavaScript frontend** to provide an interactive repository analysis platform.
-
----
+The application clones a repository, processes its source files, creates a vector database using **ChromaDB**, retrieves relevant context with **RAG**, and uses LLMs to generate a structured **analysis, summary, code review, and repository-aware answers**.
 
 ## ✨ Features
 
-### 📊 Repository Analysis
+### 🔍 Repository Analysis
 
-Analyze the structure and technical details of a GitHub repository.
-
-The analyzer detects:
+Analyze the technical structure of a GitHub repository, including:
 
 * Project name
 * Root directory
-* Total files
-* Total folders
+* Total files and folders
 * Folder structure
 * Programming languages
 * Frameworks
 * Dependencies
 * Entry points
-* Important configuration files
+* Important files
 * Project type
 
----
+### 📝 AI Project Summary
 
-### 📝 Project Summary
-
-Automatically generates a professional project summary containing:
+Automatically generate:
 
 * Project purpose
 * Project category
@@ -38,32 +31,28 @@ Automatically generates a professional project summary containing:
 * Technology stack
 * Project overview
 
----
-
 ### ⭐ AI Code Review
 
-The AI reviews the repository and provides:
+Get an AI-powered review containing:
 
-* Overall score out of 10
+* Overall score
 * Strengths
 * Weaknesses
-* Code quality analysis
+* Code quality
 * Documentation quality
-* Project structure evaluation
-* Scalability analysis
-* Maintainability analysis
+* Project structure
+* Scalability
+* Maintainability
 * Security issues
 * Performance issues
 * Improvement suggestions
 * Final review
 
----
-
 ### 💬 Repository Chat
 
 Ask questions about the analyzed repository using a RAG-based AI assistant.
 
-Examples:
+Example questions:
 
 ```text
 What is the purpose of this project?
@@ -83,16 +72,16 @@ Are there any security issues?
 How can I improve the project structure?
 ```
 
-The assistant retrieves relevant code and documentation from the repository before generating an answer.
+The assistant retrieves relevant repository context before generating an answer.
 
 ---
 
 ## 🧠 How It Works
 
-The application follows a Retrieval-Augmented Generation architecture.
+The application uses a **Retrieval-Augmented Generation (RAG)** pipeline.
 
 ```text
-                  GitHub Repository
+                 GitHub Repository
                          │
                          ▼
                     Git Clone
@@ -104,214 +93,30 @@ The application follows a Retrieval-Augmented Generation architecture.
                   Document Loader
                          │
                          ▼
-                  Text Chunking
+                   Text Chunking
                          │
                          ▼
-               Mistral Embeddings
+                 Mistral Embeddings
                          │
                          ▼
-                    ChromaDB
+                     ChromaDB
                          │
                          ▼
                     Retriever
                          │
-              ┌──────────┼──────────┐
-              ▼          ▼          ▼
-           Analysis   Summary     Review
-              │          │          │
-              └──────────┼──────────┘
+             ┌───────────┼───────────┐
+             ▼           ▼           ▼
+          Analysis     Summary      Review
+             │           │           │
+             └───────────┼───────────┘
                          ▼
                     FastAPI API
                          │
                          ▼
-                  HTML/CSS/JS UI
+                    React Frontend
 ```
 
-For repository chat:
-
-```text
-User Question
-      │
-      ▼
-FastAPI /chat
-      │
-      ▼
-ChromaDB Retriever
-      │
-      ▼
-Relevant Repository Chunks
-      │
-      ▼
-Mistral LLM
-      │
-      ▼
-AI Response
-      │
-      ▼
-Frontend
-```
-
----
-
-# 🛠️ Tech Stack
-
-## Backend
-
-* Python
-* FastAPI
-* Uvicorn
-* Pydantic
-
-## AI / LLM
-
-* LangChain
-* Groq
-* Mistral AI
-* `llama-3.3-70b-versatile`
-* `mistral-large-latest`
-* `mistral-embed`
-
-## RAG
-
-* ChromaDB
-* Mistral Embeddings
-* Recursive Character Text Splitter
-* LangChain Retrievers
-
-## Repository Processing
-
-* Git
-* GitPython / Git CLI
-* LangChain DirectoryLoader
-* TextLoader
-
-## Frontend
-
-* HTML5
-* CSS3
-* JavaScript
-* Fetch API
-
----
-
-# 📁 Project Structure
-
-```text
-github-repository-analyzer/
-│
-├── frontend/
-│   ├── index.html
-│   ├── style.css
-│   └── script.js
-│
-├── repositories/
-│
-├── repo_db/
-│
-├── main.py
-├── git_clone.py
-├── db.py
-├── llms.py
-├── rag_engine.py
-├── report_maker.py
-│
-├── report.txt
-├── .env
-├── .gitignore
-├── requirements.txt
-└── README.md
-```
-
----
-
-# 🔍 File Responsibilities
-
-### `main.py`
-
-FastAPI application.
-
-Provides API endpoints:
-
-```text
-GET  /
-POST /analyze
-POST /chat
-```
-
-It connects the frontend with the AI/RAG pipeline.
-
----
-
-### `git_clone.py`
-
-Responsible for cloning GitHub repositories.
-
-```python
-clone_repo(url)
-```
-
-Repositories are stored inside:
-
-```text
-repositories/
-```
-
----
-
-### `db.py`
-
-Responsible for:
-
-1. Loading repository files
-2. Splitting documents into chunks
-3. Generating embeddings
-4. Creating ChromaDB
-
-Main functions:
-
-```python
-loadfiles()
-create_chunks()
-create_db()
-run_db()
-```
-
----
-
-### `llms.py`
-
-Contains:
-
-* LLM configuration
-* Pydantic output schemas
-* Prompt templates
-* Analysis chain
-* Summary chain
-* Review chain
-* Chat chain
-
-Example:
-
-```python
-analysis_chain
-summary_chain
-review_chain
-chat_chain
-```
-
----
-
-### `rag_engine.py`
-
-Contains the main RAG pipeline.
-
-The primary function is:
-
-```python
-run_pipeline()
-```
-
-It performs:
+The repository pipeline performs:
 
 ```text
 Clone
@@ -320,125 +125,139 @@ Load Files
   ↓
 Create Chunks
   ↓
+Generate Embeddings
+  ↓
 Create Vector Database
   ↓
 Retrieve Context
   ↓
-Analysis
+AI Analysis
   ↓
-Summary
+Generate Summary
   ↓
-Review
+AI Review
   ↓
-Generate Report
+Return Results
 ```
 
-It also contains the repository retrieval function:
-
-```python
-load_context()
-```
-
-and the repository chat functionality.
+The backend also provides repository-aware chat through the retriever and LLM.
 
 ---
 
-### `report_maker.py`
+## 🛠️ Tech Stack
 
-Generates:
+### Backend
+
+* Python
+* FastAPI
+* Uvicorn
+* Pydantic
+
+### AI / LLM
+
+* LangChain
+* Groq
+* Mistral AI
+* Groq-hosted LLM
+* Mistral LLM
+* Mistral Embeddings
+
+### RAG
+
+* ChromaDB
+* Mistral Embeddings
+* Recursive Character Text Splitter
+* LangChain Retrievers
+
+### Repository Processing
+
+* Git
+* GitPython / Git CLI
+* LangChain DirectoryLoader
+* TextLoader
+
+### Frontend
+
+* React
+* Vite
+* Tailwind CSS
+* JavaScript
+* Lucide React
+
+---
+
+## 📁 Project Structure
 
 ```text
-report.txt
+github_repo_analyser/
+│
+├── RAG_engine/
+│   ├── rag_engine.py
+│   ├── llms.py
+│   ├── db.py
+│   ├── git_clone.py
+│   └── ...
+│
+├── backend/
+│   └── main.py
+│
+├── frontend/
+│   ├── src/
+│   │   ├── App.jsx
+│   │   └── services/
+│   │       └── api.js
+│   │
+│   ├── package.json
+│   └── ...
+│
+├── repositories/
+├── repo_db/
+├── requirements.txt
+├── .gitignore
+└── README.md
 ```
 
-containing:
-
-* Analysis
-* Summary
-* Review
+The main backend is implemented in `backend/main.py`, while the RAG and LLM components are organized under `RAG_engine/`.
 
 ---
 
-### `frontend/index.html`
+## ⚙️ Installation
 
-Main user interface.
-
-Contains:
-
-* Repository URL input
-* Analysis dashboard
-* Summary section
-* Review section
-* AI chat interface
-
----
-
-### `frontend/style.css`
-
-Provides the frontend styling and responsive layout.
-
----
-
-### `frontend/script.js`
-
-Connects the frontend to FastAPI using the JavaScript Fetch API.
-
-Example:
-
-```javascript
-fetch("http://127.0.0.1:6600/analyze", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        url: repoUrl
-    })
-});
-```
-
----
-
-# ⚙️ Installation
-
-## 1. Clone the project
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/github-repository-analyzer.git
+git clone https://github.com/AnujrajShrestha/github_repo_analyser.git
 ```
-
-Move into the project:
 
 ```bash
-cd github-repository-analyzer
+cd github_repo_analyser
 ```
 
----
+### 2. Create a virtual environment
 
-## 2. Create a virtual environment
+#### Windows
 
-Windows:
-
-```powershell
+```bash
 python -m venv .venv
 ```
 
 Activate it:
 
-```powershell
+```bash
 .venv\Scripts\activate
 ```
 
-Linux/macOS:
+#### Linux / macOS
 
 ```bash
 python3 -m venv .venv
+```
+
+```bash
 source .venv/bin/activate
 ```
 
----
-
-## 3. Install dependencies
+### 3. Install Python dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -446,139 +265,111 @@ pip install -r requirements.txt
 
 ---
 
-# 🔐 Environment Variables
+## 🔐 Environment Variables
 
-Create a `.env` file in the project root.
+Create a `.env` file in the project root:
 
 ```env
 MISTRAL_API_KEY=your_mistral_api_key
 GROQ_API_KEY=your_groq_api_key
 ```
 
-Do not commit `.env` to GitHub.
+### API Keys
 
-Add this to `.gitignore`:
+**Mistral AI** is used for:
 
-```gitignore
-.env
-.venv/
-__pycache__/
-repositories/
-repo_db/
-*.pyc
-```
+* LLM capabilities
+* Repository embeddings
 
----
-
-# 🔑 API Keys
-
-This project requires API access for:
-
-### Mistral AI
-
-Used for:
-
-* Mistral LLM
-* Mistral embeddings
-
-### Groq
-
-Used for:
+**Groq** is used for:
 
 * Repository analysis
 * Project summarization
+* AI-powered review
 
-Make sure the required API keys are available in your environment before starting the backend.
-
----
-
-# 🚀 Running the Application
-
-The project has two components:
-
-```text
-Frontend
-   +
-FastAPI Backend
-```
-
-Both need to be running.
+Never commit your `.env` file to GitHub.
 
 ---
 
-## Start FastAPI
+## 🚀 Running the Backend
 
-Run:
+From the project root:
 
 ```bash
-uvicorn main:app --host 0.0.0.0 --port 6600 --reload
+uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-The API will run at:
+The API will be available at:
 
 ```text
-http://127.0.0.1:6600
+http://127.0.0.1:8000
 ```
 
-FastAPI Swagger documentation:
+Swagger documentation:
 
 ```text
-http://127.0.0.1:6600/docs
+http://127.0.0.1:8000/docs
 ```
+
+> **Note:** The current development frontend uses port `8000` for the FastAPI API. If you change the backend port, update the frontend API configuration accordingly.
 
 ---
 
-## Start Frontend
+## 💻 Running the Frontend
 
-Navigate to the frontend directory:
+Navigate to the frontend:
 
 ```bash
 cd frontend
 ```
 
-Run Python's development HTTP server:
+Install dependencies:
 
 ```bash
-python -m http.server 5500
+npm install
 ```
 
-Open:
+Start the Vite development server:
+
+```bash
+npm run dev
+```
+
+The frontend will normally be available at:
 
 ```text
-http://127.0.0.1:5500
+http://localhost:5173
 ```
 
 ---
 
-# 🔌 API Endpoints
+## 🔌 API Endpoints
 
-## Health Check
+### Health Check
 
-### `GET /`
-
-Checks whether the backend is running.
+```http
+GET /
+```
 
 Example response:
 
 ```json
 {
-    "message": "GitHub Repository Analyzer API is running"
+  "message": "GitHub Repository Analyzer API is running"
 }
 ```
 
----
+### Analyze Repository
 
-## Analyze Repository
-
-### `POST /analyze`
-
-Analyzes a GitHub repository.
+```http
+POST /analyze
+```
 
 Request:
 
 ```json
 {
-    "url": "https://github.com/user/project"
+  "url": "https://github.com/user/project"
 }
 ```
 
@@ -586,27 +377,25 @@ Response:
 
 ```json
 {
-    "status": "success",
-    "repository": "https://github.com/user/project",
-    "analysis": {},
-    "summary": {},
-    "review": {}
+  "status": "success",
+  "repository": "https://github.com/user/project",
+  "analysis": {},
+  "summary": {},
+  "review": {}
 }
 ```
 
----
+### Repository Chat
 
-## Chat
-
-### `POST /chat`
-
-Ask a question about the repository.
+```http
+POST /chat
+```
 
 Request:
 
 ```json
 {
-    "query": "What technologies are used in this project?"
+  "query": "What technologies are used in this project?"
 }
 ```
 
@@ -614,284 +403,84 @@ Response:
 
 ```json
 {
-    "status": "success",
-    "question": "What technologies are used in this project?",
-    "response": "..."
+  "status": "success",
+  "question": "What technologies are used in this project?",
+  "response": "..."
 }
 ```
 
+The FastAPI backend exposes the health check, repository analysis, and chat endpoints.
+
 ---
 
-# 🧪 Example Workflow
+## 🔄 Example Workflow
 
-1. Start FastAPI.
-
-```bash
-uvicorn main:app --host 0.0.0.0 --port 6600 --reload
-```
-
-2. Start the frontend.
-
-```bash
-cd frontend
-python -m http.server 5500
-```
-
-3. Open:
-
-```text
-http://127.0.0.1:5500
-```
-
+1. Start the FastAPI backend.
+2. Start the React frontend.
+3. Open the frontend in your browser.
 4. Enter a public GitHub repository URL.
-
-Example:
-
-```text
-https://github.com/user/project
-```
-
-5. Click:
-
-```text
-Analyze Repository
-```
-
-6. The backend:
-
-```text
-Clones repository
-       ↓
-Loads source files
-       ↓
-Creates chunks
-       ↓
-Generates embeddings
-       ↓
-Stores vectors in ChromaDB
-       ↓
-Retrieves repository context
-       ↓
-Runs AI analysis
-       ↓
-Generates summary
-       ↓
-Reviews project
-       ↓
-Returns JSON
-```
-
-7. The frontend displays the results.
-
-8. Use the **Chat** section to ask questions about the repository.
+5. Click **Analyze**.
+6. The backend clones and processes the repository.
+7. Repository files are split into chunks.
+8. Mistral generates embeddings.
+9. ChromaDB stores the vector representations.
+10. Relevant context is retrieved.
+11. The LLM generates the analysis, summary, and review.
+12. Results are returned to the frontend.
+13. You can ask questions about the repository through the AI chat.
 
 ---
 
-# 🔐 CORS
+## ⚠️ Current Limitations
 
-FastAPI is configured to allow requests from the frontend.
-
-Example:
-
-```python
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-```
-
-For production, replace:
-
-```python
-allow_origins=["*"]
-```
-
-with your actual frontend domain.
+* Only public GitHub repositories are currently supported.
+* Large repositories can take longer to process.
+* Embedding and LLM operations require API usage.
+* The current ChromaDB implementation uses a shared database directory.
+* Chat history is maintained in backend memory.
+* Concurrent repository analysis may cause database conflicts.
+* Authentication is not implemented yet.
+* Background job processing is not implemented yet.
 
 ---
 
-# ⚠️ Current Limitations
+## 🔮 Future Improvements
 
-The current version has some limitations:
-
-* Only public GitHub repositories are supported.
-* Large repositories can take significant time to process.
-* Repository embeddings require API usage.
-* The current ChromaDB implementation uses a shared `repo_db` directory.
-* Chat history is currently maintained in backend memory.
-* Concurrent repository analysis can cause database conflicts.
-* Authentication is not currently implemented.
-* Background job processing is not yet implemented.
-
----
-
-# 🔮 Future Improvements
-
-Possible future features:
-
-* [ ] GitHub OAuth authentication
-* [ ] Private repository support
-* [ ] Repository-specific ChromaDB collections
-* [ ] Multiple simultaneous users
-* [ ] Background analysis jobs
-* [ ] Analysis progress tracking
-* [ ] Repository history
-* [ ] Downloadable PDF reports
-* [ ] Markdown report generation
-* [ ] GitHub README generation
-* [ ] Code quality scoring
-* [ ] Dependency vulnerability detection
-* [ ] Architecture diagram generation
-* [ ] GitHub commit analysis
-* [ ] Pull request review
-* [ ] Automatic README generation
-* [ ] Docker deployment
-* [ ] Cloud deployment
-* [ ] User authentication
-* [ ] Persistent chat history
+* GitHub OAuth authentication
+* Private repository support
+* Repository-specific ChromaDB collections
+* Multi-user support
+* Background analysis jobs
+* Real-time analysis progress
+* Repository history analysis
+* Downloadable PDF reports
+* Markdown report generation
+* Automatic README generation
+* Advanced code-quality scoring
+* Dependency vulnerability detection
 
 ---
 
-# 🏗️ Architecture
+## 🎯 Project Goal
 
-```text
-                         ┌──────────────────┐
-                         │     Browser      │
-                         │ HTML/CSS/JS      │
-                         └────────┬─────────┘
-                                  │
-                             HTTP / JSON
-                                  │
-                                  ▼
-                         ┌──────────────────┐
-                         │     FastAPI      │
-                         │                  │
-                         │ /analyze         │
-                         │ /chat            │
-                         └────────┬─────────┘
-                                  │
-                   ┌──────────────┼──────────────┐
-                   │              │              │
-                   ▼              ▼              ▼
-              Git Clone       ChromaDB       LLM Chains
-                   │              │              │
-                   ▼              ▼         ┌────┴────┐
-             Repository       Retriever      │         │
-               Files              │         Groq    Mistral
-                                   │
-                                   ▼
-                              AI Response
-                                   │
-                                   ▼
-                                FastAPI
-                                   │
-                                   ▼
-                                Browser
-```
+The goal of this project is to make **understanding an unfamiliar GitHub repository faster and easier**.
+
+Instead of manually exploring hundreds of files, developers can provide a repository URL and receive an AI-generated overview of its architecture, technologies, dependencies, strengths, weaknesses, and potential improvements.
 
 ---
 
-# 📚 RAG Pipeline
-
-The repository is transformed into searchable knowledge using the following pipeline:
-
-```text
-Repository
-    ↓
-File Loading
-    ↓
-Document Extraction
-    ↓
-RecursiveCharacterTextSplitter
-    ↓
-Text Chunks
-    ↓
-MistralAIEmbeddings
-    ↓
-ChromaDB
-    ↓
-MMR Retriever
-    ↓
-Relevant Context
-    ↓
-LLM
-    ↓
-Structured Response
-```
-
-The retriever currently uses:
-
-```python
-search_type="mmr"
-```
-
-with:
-
-```python
-k=8
-fetch_k=12
-lambda_mult=0.5
-```
-
----
-
-# 📄 Generated Report
-
-After repository analysis, the system generates:
-
-```text
-report.txt
-```
-
-The report contains:
-
-```text
-Step 1 - Analysis
-Step 2 - Summary
-Step 3 - Review
-```
-
----
-
-# 🎯 Project Goal
-
-The goal of this project is to make understanding unfamiliar GitHub repositories faster and easier.
-
-Instead of manually reading hundreds of files, developers can provide a repository URL and allow the AI system to:
-
-```text
-Understand
-Analyze
-Summarize
-Review
-Answer questions
-```
-
-about the project using the actual repository contents as context.
-
----
-
-# 👨‍💻 Author
+## 👨‍💻 Author
 
 **Anuj Shrestha**
 
-GitHub:
+GitHub: [AnujrajShrestha](https://github.com/AnujrajShrestha)
 
-```text
-https://github.com/AnujrajShrestha
-```
+---
+This project cannot deployed bacause author don't have money todeployed this heavy RAG application. 😭😭😭
+But you can the appliction interface screenshots on interfaces folder. 😊
 
 ---
 
-# ⭐ If You Like This Project
+## 📄 License
 
-If this project helped you understand RAG, LangChain, FastAPI, or AI-powered developer tools, consider giving the repository a ⭐ on GitHub.
-
----
-
-## 📜 License
-
-This project is intended for educational and portfolio purposes.
+This project is intended for educational and development purposes.
